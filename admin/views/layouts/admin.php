@@ -86,10 +86,8 @@ $sLogo = \Core\Settings::get('logo', '');
     <div class="notice warn">🔧 <b>Maintenance mode is ON.</b> Visitors see a maintenance page. <a href="<?= url('/admin/settings?tab=general') ?>">Turn it off</a></div>
   <?php endif; ?>
 
-  <?php foreach (flash() as $type => $messages): ?>
-    <?php foreach ($messages as $m): ?>
-      <div class="notice <?= $type === 'error' ? 'err' : 'ok' ?>"><?= e($m) ?></div>
-    <?php endforeach; ?>
+  <?php foreach (get_flashes() as $f): ?>
+    <div class="notice <?= in_array($f['type'], ['error', 'warning'], true) ? 'err' : 'ok' ?>"><?= e($f['message']) ?></div>
   <?php endforeach; ?>
 
   <main class="content"><?= $content ?></main>

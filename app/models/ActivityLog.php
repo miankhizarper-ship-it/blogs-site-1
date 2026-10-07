@@ -10,6 +10,12 @@ class ActivityLog extends Model
 {
     protected string $table = 'activity_logs';
 
+    /** Alias — several controllers call ActivityLog::record(...). */
+    public static function record(string $action, string $description, ?string $modelType = null, ?int $modelId = null): void
+    {
+        self::log($action, $description, $modelType, $modelId);
+    }
+
     /** Fire-and-forget log entry (never throws to the caller UI). */
     public static function log(string $action, string $description, ?string $modelType = null, ?int $modelId = null): void
     {

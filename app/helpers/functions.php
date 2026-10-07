@@ -133,18 +133,42 @@ if (!function_exists('csrf_check')) {
 
 /* ---------- Flash messages ---------- */
 if (!function_exists('flash')) {
-    function flash(string $type, string $message): void
+    /**
+     * Queue a one-session flash message.
+     *   flash('Saved!')            -> type defaults to "success"
+     *   flash('info', 'Hello')     -> explicit type (success|error|info|warning)
+     */
+    function flash(string $typeOrMessage, ?string $message = null): void
     {
+        if ($message === null) {           // single-arg form: flash('msg')
+            $message = $typeOrMessage;
+            $type    = 'success';
+        } else {
+            $type    = $typeOrMessage;
+        }
         $_SESSION['_flash'][] = ['type' => $type, 'message' => $message];
     }
 }
 
 if (!function_exists('get_flashes')) {
+    /** Pull and clear all queued flashes. Returns list of ['type','message']. */
     function get_flashes(): array
     {
         $f = $_SESSION['_flash'] ?? [];
         unset($_SESSION['_flash']);
         return $f;
+    }
+}
+
+if (!function_exists('site_name')) {
+    /** Site name from settings with a safe fallback (used in layouts). */
+    function site_name(): string
+    {
+        try {
+            return \Core\Settings::get('site_name', 'My Blog');
+        } catch (\Throwable) {
+            return 'My Blog';
+        }
     }
 }
 

@@ -29,4 +29,10 @@ class Subscriber extends Model
         )->fetch();
         return $row !== false && (int) $row['is_active'] === 1;
     }
+
+    /** Count of active subscribers (dashboard stat card). */
+    public function activeCount(): int
+    {
+        return (int) $this->run('SELECT COUNT(*) FROM subscribers WHERE is_active = 1')->fetchColumn();
+    }
 }
