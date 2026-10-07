@@ -156,6 +156,11 @@ if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
     @session_start();
 }
 
+/* ---------- mbstring polyfills (shared hosts often lack mbstring) ---------- */
+// Loaded FIRST so every mb_* fallback exists before any file uses them.
+// Guarded with require_once semantics via the function_exists checks inside.
+require_once BASE_PATH . '/app/helpers/mb_compat.php';
+
 require_once BASE_PATH . '/config/database.php';
 require_once BASE_PATH . '/app/helpers/functions.php';
 

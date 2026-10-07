@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 define('BASE_PATH', dirname(__DIR__));
 
-require BASE_PATH . '/config/config.php';      // env, error handling, paths
-require BASE_PATH . '/app/core/autoload.php';  // PSR-4-ish autoloader
+require_once BASE_PATH . '/config/config.php';  // env, error handling, paths (idempotent)
+require_once BASE_PATH . '/app/core/autoload.php'; // PSR-4-ish autoloader
 
 use Core\Csrf;
 use Core\Router;

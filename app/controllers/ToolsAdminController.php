@@ -52,7 +52,7 @@ class ToolsAdminController extends Controller
     /* POST /admin/tools/backup — mysqldump → gzip into storage/backups, then stream download */
     public function backup(): void
     {
-        $cfg  = require BASE_PATH . '/config/database.php';
+        $cfg  = require_once BASE_PATH . '/config/database.php';
         $dir  = BASE_PATH . '/storage/backups';
         if (!is_dir($dir)) { mkdir($dir, 0775, true); }
         $file = "$dir/backup-" . date('Ymd-His') . '.sql.gz';
@@ -161,7 +161,7 @@ class ToolsAdminController extends Controller
     private function dbSize(): string
     {
         try {
-            $cfg  = require BASE_PATH . '/config/database.php';
+            $cfg  = require_once BASE_PATH . '/config/database.php';
             $v = \Database::run(
                 'SELECT ROUND(SUM(data_length + index_length)/1024/1024, 2) AS mb
                  FROM information_schema.tables WHERE table_schema = ?',

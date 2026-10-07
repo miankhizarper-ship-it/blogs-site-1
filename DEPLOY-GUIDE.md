@@ -108,3 +108,23 @@ alwaysdata panel → *Tasks* → *Cron*:
 | Blank page, no error | Set `APP_DEBUG=true` temporarily, read the error, then set back to false. Also check `storage/logs/php-error.log`. |
 | Login says too many attempts | Wait 15 min or clear `login_attempts` table in phpMyAdmin. |
 | Images won't upload | `public/uploads` not writable — chmod 775. |
+
+---
+
+## 🔧 Troubleshooting: 502 Bad Gateway on free hosts (ct.ws / InfinityFree)
+
+A 502 from OpenResty means PHP crashed before sending output. Common causes and fixes already patched in this project:
+
+1. **Duplicate function declaration** — fixed: every helper in `app/helpers/functions.php` is wrapped in `if (!function_exists('…'))`, and all includes use `require_once`. If you see `Cannot redeclare e()` again, you uploaded an OLD version of that file — re-upload it.
+2. **Missing mbstring extension** — fixed: `app/helpers/mb_compat.php` provides UTF-8-safe fallbacks for `mb_strlen`, `mb_substr`, `mb_strtolower`, `mb_strtoupper`, `mb_trim`, `mb_internal_encoding`, `mb_convert_encoding`. It is loaded first by `config/config.php`. Re-upload BOTH files: `app/helpers/mb_compat.php` (new!) and `config/config.php`.
+3. **Still 502?** Set `APP_DEBUG=true` in `config/.env` and reload `/login` — the raw PHP error will now be printed on screen instead of a blank gateway error. Fix what it says, then set `APP_DEBUG=false` again.
+4. Check the host's **error log** (control panel → PHP configuration → error logs, or `storage/logs/`).
+5. Free hosts sometimes kill requests >30 s; make sure DB host `mysql-khizar.alwaysdata.net` is reachable from the web host (alwaysdata allows external connections; verify the MySQL user's host permission is `%` not just local).
+
+### Files changed in this hotfix (upload these 4):
+```
+app/helpers/functions.php     (all functions wrapped in function_exists guards)
+app/helpers/mb_compat.php     (NEW – mbstring polyfills)
+config/config.php             (loads mb_compat.php first)
+public/index.php              (require_once for config + autoload)
+```
