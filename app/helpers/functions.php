@@ -23,9 +23,38 @@ function raw_html(?string $html): string
 }
 
 /* ---------- URLs ---------- */
+
+/**
+ * Base URL of the site.
+ * Uses APP_URL when configured; otherwise detects scheme + host from the
+ * current request so the app works on any domain without config changes
+ * (prevents hard-coded localhost redirects in production).
+ */
+function base_url(): string
+{
+    $configured = trim((string) config('app.url', ''));
+    if ($configured !== '' && stripos($configured, 'localhost') === false
+        && !preg_match('#://(127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$#i', $configured)) {
+        return rtrim($configured, '/');
+    }
+
+    // Auto-detect from the live request
+    if (php_sapi_name() === 'cli') {
+        return 'http://localhost';
+    }
+    $https   = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+            || (($_SERVER['SERVER_PORT'] ?? '') == 443);
+    $host    = preg_replace('/[^A-Za-z0-9.\-:_]/', '',
+                (string) ($_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost'));
+    // Strip a dev port (:8080 etc.) — never keep it on a real domain
+    $hostClean = preg_replace('/:\d+$/', '', $host);
+    return ($https ? 'https://' : 'http://') . $hostClean;
+}
+
 function url(string $path = '/'): string
 {
-    return rtrim((string) config('app.url'), '/') . '/' . ltrim($path, '/');
+    return base_url() . '/' . ltrim($path, '/');
 }
 
 function asset(string $path): string
@@ -38,9 +67,14 @@ function upload_url(?string $relativePath): ?string
     return $relativePath ? url('uploads/' . ltrim($relativePath, '/')) : null;
 }
 
+/**
+ * Redirect helper. Relative paths (e.g. "/login") are resolved against the
+ * detected base URL; absolute http(s) URLs are passed through untouched.
+ */
 function redirect(string $path): never
 {
-    header('Location: ' . url($path));
+    $target = preg_match('#^https?://#i', $path) ? $path : url($path);
+    header('Location: ' . $target);
     exit;
 }
 

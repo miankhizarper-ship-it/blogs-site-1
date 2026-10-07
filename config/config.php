@@ -58,7 +58,8 @@ $config = [
         'name'     => env('APP_NAME', 'My Blog'),
         'env'      => env('APP_ENV', 'production'),
         'debug'    => filter_var(env('APP_DEBUG', false), FILTER_VALIDATE_BOOLEAN),
-        'url'      => rtrim((string) env('APP_URL', 'http://localhost'), '/'),
+        // Empty APP_URL = auto-detect from the request (recommended for production).
+        'url'      => rtrim((string) env('APP_URL', ''), '/'),
         'timezone' => env('APP_TIMEZONE', 'UTC'),
     ],
     'db' => [
@@ -140,7 +141,9 @@ set_exception_handler(function (Throwable $e): void {
 
 /* ---------- Session hardening ---------- */
 if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
-    $secure = str_starts_with((string) config('app.url'), 'https://');
+    $secure = str_starts_with((string) config('app.url'), 'https://')
+           || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
+           || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     session_name((string) config('session.name'));
     session_set_cookie_params([
         'lifetime' => (int) config('session.lifetime'),
