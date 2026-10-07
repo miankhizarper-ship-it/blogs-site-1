@@ -1,0 +1,15 @@
+[07-Oct-2026 08:44:11 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.219.59.90' (using password: YES)
+[07-Oct-2026 08:44:19 UTC] PHP Fatal error:  Uncaught Error: Class "Core\Router" not found in Command line code:6
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 6
+[07-Oct-2026 08:44:33 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.219.56.187' (using password: YES)
+[07-Oct-2026 08:54:24 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.222.177.88' (using password: YES)
+[07-Oct-2026 08:54:24 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.219.133.6' (using password: YES)
+[07-Oct-2026 08:54:25 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.219.59.90' (using password: YES)
+[07-Oct-2026 08:54:26 UTC] DB connection failed: SQLSTATE[HY000] [1045] Access denied for user 'khizar_'@'8.222.177.88' (using password: YES)
+[07-Oct-2026 09:06:07 UTC] [2026-10-07 09:06:07] Call to undefined function mb_strlen() in /workspace/app/helpers/functions.php:119
+[07-Oct-2026 09:06:07 UTC] [2026-10-07 09:06:07] Call to undefined function mb_strlen() in /workspace/app/helpers/functions.php:119
+[07-Oct-2026 09:06:08 UTC] [2026-10-07 09:06:08] Call to undefined function mb_strlen() in /workspace/app/helpers/functions.php:119
+[07-Oct-2026 09:06:08 UTC] [2026-10-07 09:06:08] Call to undefined function mb_strlen() in /workspace/app/helpers/functions.php:119
+[07-Oct-2026 09:06:17 UTC] [2026-10-07 09:06:17] Call to undefined function mb_strlen() in /workspace/app/helpers/functions.php:119

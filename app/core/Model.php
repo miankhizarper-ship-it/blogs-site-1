@@ -19,7 +19,7 @@ abstract class Model
         return Database::conn();
     }
 
-    protected function run(string $sql, array $params = []): PDOStatement
+    public function run(string $sql, array $params = []): PDOStatement
     {
         $stmt = $this->db()->prepare($sql);
         $stmt->execute($params);

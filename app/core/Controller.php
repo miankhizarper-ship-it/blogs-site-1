@@ -8,6 +8,9 @@ namespace Core;
  */
 abstract class Controller
 {
+    /** Route params for the current request (set by Router before invoke). */
+    public static array $currentParams = [];
+
     protected function view(string $template, array $data = [], ?string $layout = 'main'): void
     {
         echo View::render($template, $data, $layout);
@@ -35,5 +38,11 @@ abstract class Controller
             return trim(strip_tags($raw));
         }
         return $raw;
+    }
+
+    /** Route parameter captured by the Router ({slug}, {id}, …). */
+    protected function param(string $key, mixed $default = null): mixed
+    {
+        return self::$currentParams[$key] ?? $default;
     }
 }

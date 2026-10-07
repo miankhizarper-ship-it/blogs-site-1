@@ -18,7 +18,7 @@ class Guard
     {
         if (!Auth::check()) {
             flash('error', 'Please sign in to continue.');
-            redirect('/admin/login');
+            redirect("/login");
         }
         return true;
     }
@@ -28,7 +28,7 @@ class Guard
     {
         return function (array $args = []) use ($roles): bool {
             if (!Auth::check()) {
-                redirect('/admin/login');
+                redirect("/login");
             }
             if (!Auth::hasRole(...$roles)) {
                 http_response_code(403);

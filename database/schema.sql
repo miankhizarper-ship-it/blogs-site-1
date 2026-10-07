@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS users (
     avatar          VARCHAR(255)     NULL,
     slug            VARCHAR(190)     NOT NULL,             -- for /author/{slug}
     must_change_pw  TINYINT(1)       NOT NULL DEFAULT 0,   -- force change on first login
+    reset_token     VARCHAR(64)      NULL,                 -- forgot-password token (hashed at rest)
+    reset_expires   DATETIME         NULL,
     remember_token  VARCHAR(64)      NULL,                 -- optional remember-me
     is_active       TINYINT(1)       NOT NULL DEFAULT 1,
     last_login_at   DATETIME         NULL,

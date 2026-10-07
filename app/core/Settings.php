@@ -25,6 +25,13 @@ class Settings
         'contact_email'          => 'admin@site.com',
         'analytics_code'         => '',
         'adsense_code'           => '',
+        'footer_about'           => 'An independent blog about pragmatic web engineering.',
+        'copyright_start'        => '2026',
+        'social_facebook'        => '',
+        'social_twitter'         => '',
+        'social_linkedin'        => '',
+        'social_instagram'       => '',
+        'social_youtube'         => '',
     ];
 
     public static function all(): array

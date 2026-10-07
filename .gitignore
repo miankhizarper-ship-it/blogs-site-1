@@ -1,5 +1,5 @@
 # Environment files
 .env
 
-# Logs and storage
-storage/logs/*.log
+# Logs
+*.log

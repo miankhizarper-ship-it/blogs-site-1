@@ -167,6 +167,19 @@ function current_url(): string
     return url($uri . $qs);
 }
 
+/**
+ * Base URL for pagination links: current path + current query filters,
+ * minus 'page' (paginate() appends it). Used by Blog::paginate().
+ */
+function current_url_path_with_filters(): string
+{
+    $uri   = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+    $query = $_GET;
+    unset($query['page']);
+    $qs = $query ? '?' . http_build_query($query) : '';
+    return url($uri . $qs);
+}
+
 /* ---------- Client IP (single source of truth) ---------- */
 function client_ip(): string
 {

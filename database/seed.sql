@@ -117,7 +117,7 @@ ON DUPLICATE KEY UPDATE title = VALUES(title);
 INSERT INTO settings (setting_key, setting_value) VALUES
 ('site_name','DevJournal'),
 ('site_tagline','Plain-code web engineering, published weekly.'),
-('logo','',''),
+('logo',''),
 ('favicon',''),
 ('posts_per_page','9'),
 ('comment_moderation','1'),
@@ -130,7 +130,9 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ('analytics_code',''),
 ('adsense_code',''),
 ('default_meta_description','DevJournal — tutorials on PHP, JavaScript, MySQL, SEO and web design.'),
-('contact_email','hello@devjournal.example')
+('contact_email','hello@devjournal.example'),
+('footer_about','DevJournal is an independent blog about pragmatic web engineering — PHP, JavaScript, databases, performance and SEO. New guides every week.'),
+('copyright_start','2026')
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
 
 -- ------------------------------------------------ sample subscribers + messages
